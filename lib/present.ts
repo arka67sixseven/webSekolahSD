@@ -143,6 +143,43 @@ export function deriveTitle(lines: CaptionLine[], max = 72): string {
 }
 
 /* ------------------------------------------------------------------ *
+ * Utilitas untuk halaman Berita
+ * ------------------------------------------------------------------ */
+
+/** URL polos, dibuang dari teks artikel supaya paragraf tetap bersih. */
+const URL_RE = /https?:\/\/\S+/g;
+
+/**
+ * Buang URL, hashtag, dan emoji dari satu baris caption.
+ * Hasilnya dipakai sebagai paragraf artikel di halaman detail berita.
+ */
+export function stripDecoration(value: string): string {
+  return value
+    .replace(URL_RE, " ")
+    .replace(HASHTAG_ONLY_RE, " ")
+    .replace(EMOJI_RE, " ")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
+/**
+ * Ubah teks menjadi slug URL: huruf kecil, tanpa tanda baca, tanpa aksen.
+ * Dipakai sebagai bagian tautan `/berita/<slug>`.
+ */
+export function slugify(value: string, max = 70): string {
+  const slug = value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/&/g, " dan ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  if (slug.length === 0) return "berita";
+  return slug.length <= max ? slug : slug.slice(0, max).replace(/-[^-]*$/, "");
+}
+
+/* ------------------------------------------------------------------ *
  * View model
  * ------------------------------------------------------------------ */
 

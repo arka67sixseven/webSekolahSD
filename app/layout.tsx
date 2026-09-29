@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { SCHOOL, SITE_URL } from "@/lib/school";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -10,18 +11,22 @@ const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
 });
 
+const DESCRIPTION =
+  "Website resmi SD Taman Muda Jetis, Jetis, Yogyakarta. Profil sekolah, ekstrakurikuler, berita, galeri kegiatan, dan informasi PPDB.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "SD Taman Muda Jetis — Galeri Kegiatan Sekolah",
-    template: "%s | SD Taman Muda Jetis",
+    default: `${SCHOOL.name} — ${SCHOOL.tagline}`,
+    template: `%s | ${SCHOOL.name}`,
   },
-  description:
-    "Website SD Taman Muda Jetis. Galeri kegiatan, prestasi, dan informasi terbaru sekolah.",
+  description: DESCRIPTION,
   openGraph: {
-    title: "SD Taman Muda Jetis",
-    description: "Galeri kegiatan, prestasi, dan informasi terbaru sekolah.",
+    title: SCHOOL.name,
+    description: DESCRIPTION,
     locale: "id_ID",
     type: "website",
+    siteName: SCHOOL.name,
   },
 };
 
