@@ -32,7 +32,7 @@ export function SiteFooter() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-3">
-              <SchoolLogo className="h-11 w-auto" variant="badge" />
+              <SchoolLogo className="h-10 w-10" variant="badge" />
               <div className="leading-tight">
                 <p className="font-display text-base font-bold text-white">SD Taman Muda</p>
                 <p className="text-xs text-accent-300">Jetis, Yogyakarta</p>

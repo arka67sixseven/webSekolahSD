@@ -39,7 +39,7 @@ export function SiteHeader() {
     >
       <nav className="container-page flex items-center justify-between py-3" aria-label="Navigasi utama">
         <Link href="/" className="flex items-center gap-3">
-          <SchoolLogo className="h-11 w-auto" priority />
+          <SchoolLogo className="h-11 w-11" priority />
           <span className="leading-tight">
             <span className="block font-display text-base font-bold text-primary-800 sm:text-lg">
               SD Taman Muda Jetis
