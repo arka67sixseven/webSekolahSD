@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { GalleryClient } from "./gallery-client";
 import { INSTAGRAM_HANDLE, getInstagramPosts } from "@/lib/instagram";
@@ -11,7 +11,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Galeri Instagram",
   description:
-    "Foto, video, dan berita kegiatan SD Taman Muda Jetis, diambil otomatis dari Instagram sekolah.",
+    "Foto, video, dan berita kegiatan SD Taman Muda Jetis Yogyakarta, diambil otomatis dari Instagram sekolah.",
 };
 
 export default async function InstagramPage() {
@@ -58,7 +58,7 @@ export default async function InstagramPage() {
               </h1>
               <p className="mt-4 text-base leading-relaxed text-primary-200 sm:text-lg">
                 Aktivitas belajar, lomba, prestasi, dan pengumuman resmi SD Taman Muda
-                Jetis — diperbarui otomatis setiap jam.
+                Jetis â€” diperbarui otomatis setiap jam.
               </p>
             </div>
 
@@ -132,3 +132,4 @@ export default async function InstagramPage() {
     </main>
   );
 }
+

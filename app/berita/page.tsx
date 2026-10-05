@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/page-hero";
 import { BeritaCard } from "@/components/berita-card";
@@ -10,7 +10,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Berita",
   description:
-    "Kabar terbaru, pengumuman, dan prestasi SD Taman Muda Jetis, Jetis, Yogyakarta.",
+    "Kabar terbaru, pengumuman, dan prestasi SD Taman Muda Jetis Yogyakarta, Jetis, Yogyakarta.",
 };
 
 export default async function BeritaPage({
@@ -126,3 +126,4 @@ export default async function BeritaPage({
     </main>
   );
 }
+

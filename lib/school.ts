@@ -1,13 +1,13 @@
-/**
- * ════════════════════════════════════════════════════════════════════
- *  ISI FILE INI ADALAH TEKS CONTOH — GANTI DENGAN DATA ASLI SEKOLAH
- * ════════════════════════════════════════════════════════════════════
+﻿/**
+ * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ *  ISI FILE INI ADALAH TEKS CONTOH â€” GANTI DENGAN DATA ASLI SEKOLAH
+ * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
  *
  * Semua konten statis situs (profil, visi & misi, sejarah, fasilitas,
  * ekstrakurikuler, PPDB, kontak) dikumpulkan di satu file supaya mudah
  * diperbarui tanpa menyentuh komponen.
  *
- * Ingin mengganti isi? Cukup edit nilai di bawah — tidak ada kode
+ * Ingin mengganti isi? Cukup edit nilai di bawah â€” tidak ada kode
  * komponen yang perlu diubah.
  */
 
@@ -19,7 +19,7 @@
 export const SITE_URL = "https://sdtamanmudajetis.sch.id";
 
 export const SCHOOL = {
-  name: "SD Taman Muda Jetis",
+  name: "SD Taman Muda Jetis Yogyakarta",
   shortName: "SD Taman Muda",
   tagline: "Bertumbuh, Berprestasi, dan Berbudaya.",
   addressLines: [
@@ -37,12 +37,12 @@ export const SCHOOL = {
 
 /** Jam layanan sekolah, ditampilkan di halaman kontak. */
 export const SCHOOL_HOURS = [
-  { day: "Senin – Jumat", time: "07.00 – 14.00 WIB" },
-  { day: "Sabtu", time: "07.00 – 12.00 WIB" },
+  { day: "Senin â€“ Jumat", time: "07.00 â€“ 14.00 WIB" },
+  { day: "Sabtu", time: "07.00 â€“ 12.00 WIB" },
   { day: "Minggu & hari libur", time: "Tutup" },
 ] as const;
 
-const MAPS_QUERY = encodeURIComponent("SD Taman Muda Jetis, Jetis, Yogyakarta");
+const MAPS_QUERY = encodeURIComponent("SD Taman Muda Jetis Yogyakarta, Jetis, Yogyakarta");
 
 /** Tautan Google Maps. Format `output=embed` bisa dipakai di <iframe> tanpa API key. */
 export const SCHOOL_MAPS = {
@@ -60,7 +60,7 @@ export const HEAD_MASTER = {
   role: "Kepala Sekolah",
   photo: "/kepala-sekolah.jpg",
   paragraphs: [
-    "Assalamu’alaikum dan selamat datang di website resmi SD Taman Muda Jetis.",
+    "Assalamuâ€™alaikum dan selamat datang di website resmi SD Taman Muda Jetis Yogyakarta.",
     "Kami menyediakan lingkungan belajar yang aman dan menyenangkan.",
     "Setiap hari kami melatih mandiri, berkarakter, dan berkreativitas.",
     "Semoga website ini menjadi pintu informasi bagi warga sekolah.",
@@ -84,7 +84,7 @@ export const MISSIONS = [
 ] as const;
 
 export const HISTORY =
-  "Didirikan pada tahun 1995, SD Taman Muda Jetis terus berkembang menjadi salah satu lembaga pendidikan yang dipercaya di Yogyakarta. Dengan komitmen tinggi terhadap kualitas pengajaran dan pembentukan karakter, sekolah ini telah meluluskan ribuan alumni yang melanjutkan pendidikan ke jenjang yang lebih tinggi.";
+  "Didirikan pada tahun 1995, SD Taman Muda Jetis Yogyakarta terus berkembang menjadi salah satu lembaga pendidikan yang dipercaya di Yogyakarta. Dengan komitmen tinggi terhadap kualitas pengajaran dan pembentukan karakter, sekolah ini telah meluluskan ribuan alumni yang melanjutkan pendidikan ke jenjang yang lebih tinggi.";
 
 /** `icon` menentukan ilustrasi SVG di kartu fasilitas (lihat components/icons.tsx). */
 export const FACILITIES = [
@@ -107,7 +107,7 @@ export const EXTRACURRICULAR = [
   { name: "Pramuka", category: "Wajib", schedule: "Jumat, 15.00 WIB", description: "Melatih kedisiplinan, kemandirian, dan kepemimpinan." },
   { name: "Paskibra", category: "Organisasi", schedule: "Sabtu, 08.00 WIB", description: "Membentuk ketahanan fisik dan baris-berbaris." },
   { name: "PMR", category: "Sosial", schedule: "Rabu, 15.30 WIB", description: "Edukasi pertolongan pertama dan kepedulian sosial." },
-  { name: "Tahfidz", category: "Keagaamaan", schedule: "Senin & Kamis, 13.30 WIB", description: "Menghafal Al-Qur’an dan seni membaca dengan tartil." },
+  { name: "Tahfidz", category: "Keagaamaan", schedule: "Senin & Kamis, 13.30 WIB", description: "Menghafal Al-Qurâ€™an dan seni membaca dengan tartil." },
   { name: "Futsal & Basket", category: "Olahraga", schedule: "Selasa & Kamis, 16.00 WIB", description: "Mengasah kemampuan fisik dan kerja sama tim." },
   { name: "Klub Komputer & Coding", category: "Akademik", schedule: "Senin, 15.30 WIB", description: "Dasar pemrograman, dokumen, dan desain." },
   { name: "Seni Musik & Tari", category: "Seni", schedule: "Rabu, 15.00 WIB", description: "Mengekspresikan kreativitas dan seni budaya." },
@@ -155,10 +155,10 @@ export const PPDB_REQUIREMENTS = [
 ] as const;
 
 export const PPDB_SCHEDULE = [
-  { stage: "Pendaftaran", date: "1 – 20 Juni 2026" },
-  { stage: "Seleksi & Wawancara", date: "21 – 25 Juni 2026" },
+  { stage: "Pendaftaran", date: "1 â€“ 20 Juni 2026" },
+  { stage: "Seleksi & Wawancara", date: "21 â€“ 25 Juni 2026" },
   { stage: "Pengumuman", date: "27 Juni 2026" },
-  { stage: "Registrasi ulang", date: "28 Juni – 5 Juli 2026" },
+  { stage: "Registrasi ulang", date: "28 Juni â€“ 5 Juli 2026" },
 ] as const;
 
 /* ------------------------------------------------------------------ *
@@ -171,3 +171,4 @@ export const HOME_STATS = [
   { value: "38+", label: "Guru dan staf" },
   { value: "8", label: "Ekstrakurikuler" },
 ] as const;
+

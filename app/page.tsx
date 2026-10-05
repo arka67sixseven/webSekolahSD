@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { BeritaCard } from "@/components/berita-card";
 import { PostStripCard } from "@/components/post-card";
 import { SectionHeading } from "@/components/section-heading";
@@ -72,7 +72,7 @@ export default async function HomePage() {
 
             <p className="mt-5 max-w-xl text-base leading-relaxed text-primary-200 sm:text-lg">
               Ikuti aktivitas belajar, lomba, dan kegiatan sekolah yang berjalan setiap
-              hari — langsung dari feed Instagram sekolah.
+              hari â€” langsung dari feed Instagram sekolah.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -232,7 +232,7 @@ export default async function HomePage() {
             <SectionHeading
               eyebrow="Kabar Terbaru"
               title="Berita & Kegiatan"
-              description="Jejak kegiatan, prestasi, dan pengumuman resmi SD Taman Muda Jetis."
+              description="Jejak kegiatan, prestasi, dan pengumuman resmi SD Taman Muda Jetis Yogyakarta."
               action={
                 <Link href="/berita" className="btn-ghost">
                   Lihat semua
@@ -282,7 +282,7 @@ export default async function HomePage() {
                 <SectionHeading
                   eyebrow="Sorotan"
                   title="Prestasi Siswa"
-                  description="Pencapaian membanggakan siswa SD Taman Muda Jetis."
+                  description="Pencapaian membanggakan siswa SD Taman Muda Jetis Yogyakarta."
                 />
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {prestasiItems.map((item) => (
@@ -302,7 +302,7 @@ export default async function HomePage() {
             <SectionHeading
               eyebrow="Galeri"
               title="Sorotan Visual"
-              description="Potongan keseharian siswa di SD Taman Muda Jetis."
+              description="Potongan keseharian siswa di SD Taman Muda Jetis Yogyakarta."
               action={<Link href="/instagram" className="btn-ghost">Buka galeri lengkap</Link>}
             />
           </div>
@@ -347,3 +347,4 @@ export default async function HomePage() {
     </main>
   );
 }
+
