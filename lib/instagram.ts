@@ -32,12 +32,16 @@
  * i.ibb.co.com). Kode di bawah tetap menampilkannya sebagai kartu "Berita".
  */
 
-/** Endpoint scraper. */
+/** Endpoint scraper lama. */
 export const INSTAGRAM_API_URL =
   "https://scrap-ig-apify-u55q.vercel.app/api/instagram";
 
+/** Endpoint data IG SD Taman Muda Jetis (API khusus). */
+export const SEKOLAH_IG_API_URL =
+  "https://api-ig-ruddy.vercel.app/api/berita/sekolah/sdtamansiswajetis";
+
 /** Handle asal data (dipakai di teks tombol "Ikuti Kami"). */
-export const INSTAGRAM_HANDLE = "@smptamandewasajetisjogja";
+export const INSTAGRAM_HANDLE = "@sdtamansiswajetis";
 
 /** Data di-refresh tiap 1 jam supaya URL CDN Instagram (bermasa berlaku) tetap hidup. */
 export const INSTAGRAM_REVALIDATE_SECONDS = 3600;
@@ -158,7 +162,7 @@ function normalizePost(raw: unknown, index: number): InstagramPost | null {
   const postedAt = asString(
     pick(raw, ["posted_at", "postedAt", "timestamp", "taken_at", "date"])
   );
-  const createdAt = asString(pick(raw, ["created_at", "createdAt"]));
+  const createdAt = asString(pick(raw, ["created_at", "createdAt", "scraped_at", "scrapedAt"]));
 
   // Buang objek sampah yang tidak punya gambar maupun keterangan sama sekali.
   if (!mediaUrl && !caption) return null;
@@ -168,7 +172,7 @@ function normalizePost(raw: unknown, index: number): InstagramPost | null {
 
   return {
     id:
-      asString(pick(raw, ["id", "shortcode", "code", "pk"])) ??
+      asString(pick(raw, ["id", "short_code", "shortcode", "code", "pk"])) ??
       `post-${index}-${mediaUrl ?? caption}`,
     type: resolveType(raw, isVideo, Boolean(permalink)),
     caption,
@@ -243,34 +247,66 @@ function normalizePosts(payload: unknown): { posts: InstagramPost[]; skipped: nu
   };
 }
 
-/** Ambil data terbaru dari API Instagram. Tidak pernah melempar error. */
+/** Gabungkan beberapa sumber data Instagram. Tidak pernah melempar error. */
 export async function getInstagramPosts(): Promise<InstagramFeed> {
-  try {
-    const res = await fetch(INSTAGRAM_API_URL, {
+  const fetchWithTimeout = async (url: string) => {
+    const res = await fetch(url, {
       next: { revalidate: INSTAGRAM_REVALIDATE_SECONDS },
       headers: { Accept: "application/json" },
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     });
 
     if (!res.ok) {
-      throw new Error(`API Instagram merespons ${res.status} ${res.statusText}`);
+      throw new Error(`API merespons ${res.status} ${res.statusText}`);
     }
 
-    // res.json() bisa melempar SyntaxError kalau body bukan JSON.
     const payload: unknown = await res.json();
-
-    // API ini membalas { success, source, total, data } dengan HTTP 200.
     if (isRecord(payload) && payload.success === false) {
       throw new Error(
         asString(payload.error) ?? asString(payload.message) ?? "API mengembalikan status gagal"
       );
     }
+    return payload;
+  };
 
-    const { posts, skipped } = normalizePosts(payload);
-    return { posts, error: null, skipped };
-  } catch (error) {
-    console.error("[instagram] Gagal mengambil data:", error);
-    const message = error instanceof Error ? error.message : "Kesalahan tidak diketahui";
-    return { posts: [], error: message, skipped: 0 };
+  const urls = [SEKOLAH_IG_API_URL, INSTAGRAM_API_URL];
+  const allPosts: InstagramPost[] = [];
+  const errors: string[] = [];
+  let totalSkipped = 0;
+
+  for (const url of urls) {
+    try {
+      const payload = await fetchWithTimeout(url);
+      const { posts, skipped } = normalizePosts(payload);
+      allPosts.push(...posts);
+      totalSkipped += skipped;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Kesalahan tidak diketahui";
+      console.error(`[instagram] Gagal mengambil data dari ${url}:`, error);
+      errors.push(`${new URL(url).hostname}: ${message}`);
+    }
   }
+
+  // Hilangkan duplikasi berdasarkan ID
+  const seen = new Set<string>();
+  const uniquePosts: InstagramPost[] = [];
+  for (const post of allPosts) {
+    if (seen.has(post.id)) continue;
+    seen.add(post.id);
+    uniquePosts.push(post);
+  }
+
+  uniquePosts.sort((a, b) => {
+    const timeA = a.timestamp ? Date.parse(a.timestamp) : Number.NaN;
+    const timeB = b.timestamp ? Date.parse(b.timestamp) : Number.NaN;
+    const validA = Number.isNaN(timeA) ? -Infinity : timeA;
+    const validB = Number.isNaN(timeB) ? -Infinity : timeB;
+    return validB - validA;
+  });
+
+  return {
+    posts: uniquePosts,
+    error: errors.length > 0 ? errors[0] : null,
+    skipped: totalSkipped,
+  };
 }
