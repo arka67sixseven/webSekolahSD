@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "sync:berita": "node scripts/sync-berita.mjs"
   },
   "dependencies": {
     "next": "15.5.26",

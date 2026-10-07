@@ -36,6 +36,17 @@
 export const SEKOLAH_IG_API_URL =
   "https://api-ig-ruddy.vercel.app/api/berita/sekolah/sdtamansiswajetis";
 
+/**
+ * Peta `id -> /images/berita/<id>.jpg`, dibuat oleh `npm run sync:berita`.
+ *
+ * Thumbnail Instagram URL bersifat sementara (parameter `oe` kedaluwarsa
+ * dalam hitungan hari), sehingga gambar diunduh ke repo dan disajikan dari
+ * domain sendiri. Post baru yang belum disinkron tetap memakai URL API.
+ */
+import localMedia from "@/data/gambar.generated.json";
+
+const LOCAL_MEDIA: Record<string, string> = localMedia;
+
 /** Handle asal data (dipakai di teks tombol "Ikuti Kami"). */
 export const INSTAGRAM_HANDLE = "@sdtamansiswajetis";
 
@@ -256,6 +267,13 @@ function normalizePosts(payload: unknown): { posts: InstagramPost[]; skipped: nu
   };
 }
 
+/** Petakan ke gambar lokal bila tersedia, agar tidak bergantung URL IG yg kedaluwarsa. */
+function resoleLokal(post: InstagramPost): InstagramPost {
+  const lokal = LOCAL_MEDIA[post.id];
+  if (lokal) return { ...post, media_url: lokal };
+  return post;
+}
+
 /** Ambil unggahan terbaru dari API SD Taman Muda Jetis. Tidak pernah melempar error. */
 export async function getInstagramPosts(): Promise<InstagramFeed> {
   try {
@@ -277,7 +295,7 @@ export async function getInstagramPosts(): Promise<InstagramFeed> {
     }
 
     const { posts, skipped } = normalizePosts(payload);
-    return { posts, error: null, skipped };
+    return { posts: posts.map(resoleLokal), error: null, skipped };
   } catch (error) {
     const message = error instanceof Error ? error.message : "Kesalahan tidak diketahui";
     console.error(`[instagram] Gagal mengambil data dari ${SEKOLAH_IG_API_URL}:`, error);
