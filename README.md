@@ -3,15 +3,14 @@
 Website sekolah lengkap: profil, ekstrakurikuler, berita, galeri kegiatan, kontak, dan
 informasi PPDB. Konten berita dan galeri ditarik otomatis dari feed Instagram sekolah.
 
-Data ditarik dari API scraper Instagram di
-[`scrap-ig-apify-u55q.vercel.app`](https://scrap-ig-apify-u55q.vercel.app/api/instagram/),
+Data ditarik dari API feed Instagram SD Taman Muda Jetis di
+[`api-ig-ruddy.vercel.app`](https://api-ig-ruddy.vercel.app/api/berita/sekolah/sdtamansiswajetis),
 lalu dinormalisasi menjadi dua bentuk: **kartu galeri** (filter, pencarian, lightbox) dan
 **artikel berita** (slug, judul, paragraf isi, kategori).
 
-> **Catatan:** isi galeri saat ini masih data contoh dari akun Instagram
-> `@smptamandewasajetisjogja` (SMP Taman Dewasa Jetis Yogyakarta). Ganti dengan feed
-> sekolah yang sebenarnya saat sudah tersedia — tidak ada perubahan kode yang diperlukan,
-> hanya ubah `INSTAGRAM_API_URL` di `lib/instagram.ts`.
+> **Catatan:** isi galeri berasal dari feed Instagram SD Taman Muda Jetis Yogyakarta
+> (`@sdtamansiswajetis`) melalui endpoint `api-ig-ruddy.vercel.app`. Untuk berpindah sumber,
+> cukup ubah `SEKOLAH_IG_API_URL` di `lib/instagram.ts` — tidak ada perubahan kode lain.
 
 ## Teknologi
 

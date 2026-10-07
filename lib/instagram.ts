@@ -1,40 +1,36 @@
 /**
  * Lapisan data untuk galeri Instagram.
  *
- * Sumber data: scraper Instagram (Apify) yang disimpan di Supabase.
- * Endpoint: https://scrap-ig-apify-u55q.vercel.app/api/instagram
+ * Sumber data: API unggahan Instagram SD Taman Muda Jetis Yogyakarta.
+ * Endpoint: https://api-ig-ruddy.vercel.app/api/berita/sekolah/sdtamansiswajetis
  *
  * Bentuk balasan API (HTTP 200):
  * {
- *   "success": true,
- *   "source": "supabase",
- *   "total": 14,
+ *   "status": "success",
+ *   "total": 10,
  *   "data": [
  *     {
  *       "id": "3995916484207071907",
- *       "type": "Image" | "Carousel" | "Video" | null,
+ *       "short_code": "Dd0WN8BSlKj",
+ *       "type": "video",
  *       "caption": "...",
+ *       "hashtags": ["ppdb2026", "sdtamansiswajetis"],
  *       "thumbnail_url": "https://scontent-...cdninstagram.com/...",
+ *       "images": [],
  *       "is_video": true,
  *       "video_url": "https://...mp4" | null,
- *       "likes_count": 37,
- *       "comments_count": 0,
- *       "post_url": "https://www.instagram.com/p/Dd0WN8BSlKj/" | null,
- *       "posted_at": "2026-09-28T04:39:50+00:00" | null,
- *       "created_at": "...",
- *       "updated_at": "..."
+ *       "post_url": "https://www.instagram.com/p/Dd0WN8BSlKj/",
+ *       "likes": 37,
+ *       "posted_at": "2026-09-28T04:39:50+00:00",
+ *       "scraped_at": "...",
+ *       "username": "sdtamansiswajetis"
  *     }
  *   ]
  * }
  *
- * Catatan: salah satu entri (id "3") bukanunggahan Instagram, melainkan
- * berita sekolah yang diunggah manual (type null, post_url null, gambar dari
- * i.ibb.co.com). Kode di bawah tetap menampilkannya sebagai kartu "Berita".
+ * Catatan: semua entri adalah unggahan Instagram sekolah; tidak ada lagi
+ * berita manual yang diunggah lewat endpoint scraper lama.
  */
-
-/** Endpoint scraper lama. */
-export const INSTAGRAM_API_URL =
-  "https://scrap-ig-apify-u55q.vercel.app/api/instagram";
 
 /** Endpoint data IG SD Taman Muda Jetis (API khusus). */
 export const SEKOLAH_IG_API_URL =
@@ -69,6 +65,8 @@ export interface InstagramPost {
   is_video: boolean;
   likes_count?: number;
   comments_count?: number;
+  /** Tag dari kolom `hashtags` API (bukan disarikan dari caption). */
+  hashtags?: string[];
 }
 
 export interface InstagramFeed {
@@ -164,6 +162,14 @@ function normalizePost(raw: unknown, index: number): InstagramPost | null {
   );
   const createdAt = asString(pick(raw, ["created_at", "createdAt", "scraped_at", "scrapedAt"]));
 
+  const rawHashtags = pick(raw, ["hashtags", "tags"]);
+  const hashtags = Array.isArray(rawHashtags)
+    ? rawHashtags
+        .filter((tag): tag is string => typeof tag === "string")
+        .map((tag) => tag.trim().replace(/^#/, ""))
+        .filter((tag) => tag !== "")
+    : undefined;
+
   // Buang objek sampah yang tidak punya gambar maupun keterangan sama sekali.
   if (!mediaUrl && !caption) return null;
 
@@ -182,10 +188,13 @@ function normalizePost(raw: unknown, index: number): InstagramPost | null {
     // Berita manual tidak punya posted_at, jadi pakai created_at sebagai gantinya.
     timestamp: postedAt ?? createdAt,
     is_video: isVideo,
-    likes_count: asNumber(pick(raw, ["likes_count", "likesCount", "like_count", "likeCount"])),
+    likes_count: asNumber(
+      pick(raw, ["likes", "likes_count", "likesCount", "like_count", "likeCount"])
+    ),
     comments_count: asNumber(
       pick(raw, ["comments_count", "commentsCount", "comment_count"])
     ),
+    hashtags,
   };
 }
 
@@ -247,10 +256,10 @@ function normalizePosts(payload: unknown): { posts: InstagramPost[]; skipped: nu
   };
 }
 
-/** Gabungkan beberapa sumber data Instagram. Tidak pernah melempar error. */
+/** Ambil unggahan terbaru dari API SD Taman Muda Jetis. Tidak pernah melempar error. */
 export async function getInstagramPosts(): Promise<InstagramFeed> {
-  const fetchWithTimeout = async (url: string) => {
-    const res = await fetch(url, {
+  try {
+    const res = await fetch(SEKOLAH_IG_API_URL, {
       next: { revalidate: INSTAGRAM_REVALIDATE_SECONDS },
       headers: { Accept: "application/json" },
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
@@ -266,47 +275,16 @@ export async function getInstagramPosts(): Promise<InstagramFeed> {
         asString(payload.error) ?? asString(payload.message) ?? "API mengembalikan status gagal"
       );
     }
-    return payload;
-  };
 
-  const urls = [SEKOLAH_IG_API_URL, INSTAGRAM_API_URL];
-  const allPosts: InstagramPost[] = [];
-  const errors: string[] = [];
-  let totalSkipped = 0;
-
-  for (const url of urls) {
-    try {
-      const payload = await fetchWithTimeout(url);
-      const { posts, skipped } = normalizePosts(payload);
-      allPosts.push(...posts);
-      totalSkipped += skipped;
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Kesalahan tidak diketahui";
-      console.error(`[instagram] Gagal mengambil data dari ${url}:`, error);
-      errors.push(`${new URL(url).hostname}: ${message}`);
-    }
+    const { posts, skipped } = normalizePosts(payload);
+    return { posts, error: null, skipped };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Kesalahan tidak diketahui";
+    console.error(`[instagram] Gagal mengambil data dari ${SEKOLAH_IG_API_URL}:`, error);
+    return {
+      posts: [],
+      error: `${new URL(SEKOLAH_IG_API_URL).hostname}: ${message}`,
+      skipped: 0,
+    };
   }
-
-  // Hilangkan duplikasi berdasarkan ID
-  const seen = new Set<string>();
-  const uniquePosts: InstagramPost[] = [];
-  for (const post of allPosts) {
-    if (seen.has(post.id)) continue;
-    seen.add(post.id);
-    uniquePosts.push(post);
-  }
-
-  uniquePosts.sort((a, b) => {
-    const timeA = a.timestamp ? Date.parse(a.timestamp) : Number.NaN;
-    const timeB = b.timestamp ? Date.parse(b.timestamp) : Number.NaN;
-    const validA = Number.isNaN(timeA) ? -Infinity : timeA;
-    const validB = Number.isNaN(timeB) ? -Infinity : timeB;
-    return validB - validA;
-  });
-
-  return {
-    posts: uniquePosts,
-    error: errors.length > 0 ? errors[0] : null,
-    skipped: totalSkipped,
-  };
 }

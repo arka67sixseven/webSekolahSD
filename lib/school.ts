@@ -1,13 +1,13 @@
-﻿/**
- * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
- *  ISI FILE INI ADALAH TEKS CONTOH â€” GANTI DENGAN DATA ASLI SEKOLAH
- * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/**
+ * ════════════════════════════════════════════════════════════════════
+ *  ISI FILE INI ADALAH TEKS CONTOH — GANTI DENGAN DATA ASLI SEKOLAH
+ * ════════════════════════════════════════════════════════════════════
  *
  * Semua konten statis situs (profil, visi & misi, sejarah, fasilitas,
  * ekstrakurikuler, PPDB, kontak) dikumpulkan di satu file supaya mudah
  * diperbarui tanpa menyentuh komponen.
  *
- * Ingin mengganti isi? Cukup edit nilai di bawah â€” tidak ada kode
+ * Ingin mengganti isi? Cukup edit nilai di bawah — tidak ada kode
  * komponen yang perlu diubah.
  */
 
@@ -37,8 +37,8 @@ export const SCHOOL = {
 
 /** Jam layanan sekolah, ditampilkan di halaman kontak. */
 export const SCHOOL_HOURS = [
-  { day: "Senin â€“ Jumat", time: "07.00 â€“ 14.00 WIB" },
-  { day: "Sabtu", time: "07.00 â€“ 12.00 WIB" },
+  { day: "Senin – Jumat", time: "07.00 – 14.00 WIB" },
+  { day: "Sabtu", time: "07.00 – 12.00 WIB" },
   { day: "Minggu & hari libur", time: "Tutup" },
 ] as const;
 
@@ -60,7 +60,7 @@ export const HEAD_MASTER = {
   role: "Kepala Sekolah",
   photo: "/kepala-sekolah.jpg",
   paragraphs: [
-    "Assalamuâ€™alaikum dan selamat datang di website resmi SD Taman Muda Jetis Yogyakarta.",
+    "Assalamu’alaikum dan selamat datang di website resmi SD Taman Muda Jetis Yogyakarta.",
     "Kami menyediakan lingkungan belajar yang aman dan menyenangkan.",
     "Setiap hari kami melatih mandiri, berkarakter, dan berkreativitas.",
     "Semoga website ini menjadi pintu informasi bagi warga sekolah.",
@@ -107,7 +107,7 @@ export const EXTRACURRICULAR = [
   { name: "Pramuka", category: "Wajib", schedule: "Jumat, 15.00 WIB", description: "Melatih kedisiplinan, kemandirian, dan kepemimpinan." },
   { name: "Paskibra", category: "Organisasi", schedule: "Sabtu, 08.00 WIB", description: "Membentuk ketahanan fisik dan baris-berbaris." },
   { name: "PMR", category: "Sosial", schedule: "Rabu, 15.30 WIB", description: "Edukasi pertolongan pertama dan kepedulian sosial." },
-  { name: "Tahfidz", category: "Keagaamaan", schedule: "Senin & Kamis, 13.30 WIB", description: "Menghafal Al-Qurâ€™an dan seni membaca dengan tartil." },
+  { name: "Tahfidz", category: "Keagaamaan", schedule: "Senin & Kamis, 13.30 WIB", description: "Menghafal Al-Qur’an dan seni membaca dengan tartil." },
   { name: "Futsal & Basket", category: "Olahraga", schedule: "Selasa & Kamis, 16.00 WIB", description: "Mengasah kemampuan fisik dan kerja sama tim." },
   { name: "Klub Komputer & Coding", category: "Akademik", schedule: "Senin, 15.30 WIB", description: "Dasar pemrograman, dokumen, dan desain." },
   { name: "Seni Musik & Tari", category: "Seni", schedule: "Rabu, 15.00 WIB", description: "Mengekspresikan kreativitas dan seni budaya." },
@@ -155,10 +155,10 @@ export const PPDB_REQUIREMENTS = [
 ] as const;
 
 export const PPDB_SCHEDULE = [
-  { stage: "Pendaftaran", date: "1 â€“ 20 Juni 2026" },
-  { stage: "Seleksi & Wawancara", date: "21 â€“ 25 Juni 2026" },
+  { stage: "Pendaftaran", date: "1 – 20 Juni 2026" },
+  { stage: "Seleksi & Wawancara", date: "21 – 25 Juni 2026" },
   { stage: "Pengumuman", date: "27 Juni 2026" },
-  { stage: "Registrasi ulang", date: "28 Juni â€“ 5 Juli 2026" },
+  { stage: "Registrasi ulang", date: "28 Juni – 5 Juli 2026" },
 ] as const;
 
 /* ------------------------------------------------------------------ *

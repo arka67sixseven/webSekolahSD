@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { SchoolLogo } from "./school-logo";
 import { InstagramIcon } from "./icons";
-import { INSTAGRAM_API_URL } from "@/lib/instagram";
+import { SEKOLAH_IG_API_URL } from "@/lib/instagram";
 import { PPDB, SCHOOL, SCHOOL_HOURS } from "@/lib/school";
 
 const NAV_LINKS = [
@@ -175,7 +175,7 @@ export function SiteFooter() {
           <p>
             Data berita diambil otomatis dari{" "}
             <code className="rounded bg-white/10 px-1.5 py-0.5 text-[11px] text-primary-200">
-              scrap-ig-apify-u55q.vercel.app
+              api-ig-ruddy.vercel.app
             </code>{" "}
             dan diperbarui setiap jam.
           </p>
@@ -186,4 +186,4 @@ export function SiteFooter() {
 }
 
 /** Diekspor agar halaman bisa menyertakan sumber data di footer galeri. */
-export const DATA_SOURCE = INSTAGRAM_API_URL;
+export const DATA_SOURCE = SEKOLAH_IG_API_URL;

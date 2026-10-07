@@ -72,7 +72,7 @@ export default async function HomePage() {
 
             <p className="mt-5 max-w-xl text-base leading-relaxed text-primary-200 sm:text-lg">
               Ikuti aktivitas belajar, lomba, dan kegiatan sekolah yang berjalan setiap
-              hari â€” langsung dari feed Instagram sekolah.
+              hari — langsung dari feed Instagram sekolah.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">

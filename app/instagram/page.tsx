@@ -58,7 +58,7 @@ export default async function InstagramPage() {
               </h1>
               <p className="mt-4 text-base leading-relaxed text-primary-200 sm:text-lg">
                 Aktivitas belajar, lomba, prestasi, dan pengumuman resmi SD Taman Muda
-                Jetis â€” diperbarui otomatis setiap jam.
+                Jetis — diperbarui otomatis setiap jam.
               </p>
             </div>
 

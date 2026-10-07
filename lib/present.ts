@@ -39,10 +39,10 @@ export type PostCategory =
 
 /** Urutan penting: kategori pertama yang cocok menang. */
 const CATEGORY_RULES: ReadonlyArray<readonly [PostCategory, RegExp]> = [  ["Pengumuman", /pengumuman|pendaftaran|undangan|rekrutmen|gathering|\bppmb\b|\bspmb\b|\bppdb\b|info ppm|PPTS/i],
-  ["Prestasi", /juara|trophy|juaraan|medali|pembina|prestasi|mengollow|podium/i],
+  ["Prestasi", /juara|trophy|juaraan|kejuaraan|kejuraan|medali|pembina|prestasi|mengollow|podium/i],
   ["Lomba", /\blomba\b|art fest|\bfest\b|turnamen|kompetisi|karnaval|lombatarikreasi/i],
   [
-    "Akademik",    /asesmen|as\w*esen|\bast[sbp]\b|astts|sumatif|ujian|kuis|belajar|pembelajaran|kombel|komunitas belajar|pelatihan|sosialisasi|geschool|praktikum|materi ajar|tugas/i,
+    "Akademik",    /asesmen|as\w*esen|\bast[sbp]\b|astts|sumatif|ujian|kuis|belajar|pembelajaran|workshop|literasi|numerasi|kombel|komunitas belajar|pelatihan|sosialisasi|geschool|praktikum|materi ajar|tugas/i,
   ],
   [
     "Kegiatan",    /maulid|upacara|perayaan|17 agustus|hut ri|khutbah|ramadhan|pawai|pentas|seni|budaya|fkub|persahabatan|teaching factory|jumat bersih|berkata|memo/i,
@@ -224,7 +224,11 @@ const TYPE_LABEL: Record<InstagramPostType, string> = {
 export function toPostView(post: InstagramPost, now: number = Date.now()): PostView {
   const captionLines = parseCaption(post.caption);
   const date = formatDate(post.timestamp);
-  const searchText = post.caption ?? "";
+  const hashtags = [
+    ...new Set([...(post.hashtags ?? []), ...extractHashtags(post.caption)]),
+  ];
+  // Tag dari API ikut dipakai untuk kategori & pencarian, bukan hanya teks caption.
+  const searchText = [post.caption ?? "", ...hashtags].join(" ");
 
   const baseCategory = deriveCategory(searchText, post.type);
   const juara = baseCategory === "Prestasi" ? deriveJuara(searchText) : null;
@@ -243,7 +247,7 @@ export function toPostView(post: InstagramPost, now: number = Date.now()): PostV
     categoryTone: CATEGORY_TONE[juara ? "Prestasi" : baseCategory],
     captionLines,
     preview: tokensToPlain(captionLines).slice(0, 220) || undefined,
-    hashtags: extractHashtags(post.caption),
+    hashtags,
     links: extractLinks(post.caption),
     likes: post.likes_count,
     comments: post.comments_count,
